@@ -3,7 +3,7 @@
   <version>1.0.0</version>
   <description>This package contains a Ros wrapper for RapidXML</description>
   <author>Aumann Florian</author>
-  <maintainer email="pascal.meissner@posteo.de">Meißner Pascal</maintainer>
+  <maintainer email="asr-ros@lists.kit.edu">Meißner Pascal</maintainer>
   <license>BSD</license>
 
   <buildtool_depend>catkin</buildtool_depend>
