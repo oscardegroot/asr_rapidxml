@@ -1,7 +1,7 @@
 <package>
   <name>asr_rapidxml</name>
   <version>1.0.0</version>
-  <description>This package contains a Ros wrapper for RapidXML</description>
+  <description>This package contains a Ros wrapper for RapidXML (version 1.13)</description>
   <author>Aumann Florian</author>
   <maintainer email="asr-ros@lists.kit.edu">Meißner Pascal</maintainer>
   <license>BSD</license>
