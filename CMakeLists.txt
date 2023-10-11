@@ -1,27 +1,61 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(asr_rapidxml)
 
-include_directories(include)
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+endif()
 
-find_package(catkin)
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+add_compile_options(-DCMAKE_BUILD_TYPE=Release)
 
-catkin_package(
-  INCLUDE_DIRS include 
-  LIBRARIES ${PROJECT_NAME}
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+
+add_library(${PROJECT_NAME} INTERFACE)
+target_include_directories(${PROJECT_NAME} INTERFACE
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+  "$<INSTALL_INTERFACE:include>"
 )
+target_link_libraries(${PROJECT_NAME} INTERFACE)
 
-add_library(${PROJECT_NAME} STATIC     
-    include/rapidxml.hpp
-    include/rapidxml_iterators.hpp
-    include/rapidxml_print.hpp
-    include/rapidxml_print.hpp)
-set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
+## Build
+# include_directories(include)
+
+# add_library(${PROJECT_NAME} STATIC     
+#     include/rapidxml.hpp
+#     include/rapidxml_iterators.hpp
+#     include/rapidxml_print.hpp
+#     include/rapidxml_print.hpp)
+# target_include_directories(${PROJECT_NAME}
+
+# set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
+
+# install(TARGETS ${PROJECT_NAME}
+#         ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#         LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#         RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION})
+# The example
+# install(TARGETS ${PROJECT_NAME}
+  # DESTINATION lib/${PROJECT_NAME})
+
+# install(DIRECTORY include
+# 	DESTINATION include/${PROJECT_NAME})
+
+# ament_export_include_directories(include)
 
 install(TARGETS ${PROJECT_NAME}
-        ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-        LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-        RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION})
+  EXPORT "export_${PROJECT_NAME}"
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin # Was lib
+  INCLUDES DESTINATION include
+)
 
 install(DIRECTORY include/
-	DESTINATION ${CATKIN_GLOBAL_INCLUDE_DESTINATION})
+  DESTINATION include/${PROJECT_NAME}
+)
 
+ament_export_targets("export_${PROJECT_NAME}")
+ament_package()
